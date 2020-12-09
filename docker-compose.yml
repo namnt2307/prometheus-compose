@@ -18,6 +18,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./rules/test-rule.yaml:/etc/prometheus/rules/test-rule.yaml
     network_mode: host
  
 ###grafana  
@@ -43,3 +44,13 @@ services:
       - 9100:9100
     network_mode: host
   
+  alert_manager:
+    image: prom/alertmanager:latest
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager.yaml:/etc/alertmanager/alertmanager.yml
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+    network_mode: host
+    
